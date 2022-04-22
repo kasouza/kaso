@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.container ul {
+    list-style: circle;
+}
+
+.container ol {
+    list-style: decimal;
+}

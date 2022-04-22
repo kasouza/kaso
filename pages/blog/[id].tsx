@@ -1,6 +1,8 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import Layout from "../../components/Layout"
-import { readFile, staticPaths } from "../../lib/IO"
+import { readFile, staticPaths } from "../../lib/posts"
+
+import styles from "../../styles/Post.module.css"
 
 export const getStaticProps: GetStaticProps = async context => {
     const { id }: { id: string } = context.params as any
@@ -25,8 +27,7 @@ const BlogPost: InferGetStaticPropsType<typeof getStaticProps> = ({ postData }: 
         <Layout>
             <section className="flex flex-col gap-4 w-3/5">
                 <h1 className="text-4xl">{postData.title}</h1>
-                <img src={`/images/posts/blog/${postData.id}/carousel_1.jpg`} alt="Saskes" />
-                <div dangerouslySetInnerHTML={{__html: postData.contentHtml}}></div>
+                <div className={styles.container} dangerouslySetInnerHTML={{__html: postData.contentHtml}}></div>
             </section>
         </Layout>
     )

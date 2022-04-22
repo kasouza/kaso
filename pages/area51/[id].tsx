@@ -1,14 +1,21 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
+import { Carousel } from "react-responsive-carousel"
 import Layout from "../../components/Layout"
-import { readFile, staticPaths } from "../../lib/IO"
+import { getPostCarouselImages, Post, readFile, staticPaths } from "../../lib/posts"
+import Image from 'next/image'
+
+import styles from "../../styles/Post.module.css"
 
 export const getStaticProps: GetStaticProps = async context => {
     const { id }: { id: string } = context.params as any
+
     const postData = await readFile('area51', id)
+    const images = getPostCarouselImages('area51', id)
 
     return {
         props: {
-            postData
+            postData,
+            images
         }
     }
 }
@@ -20,13 +27,19 @@ export const getStaticPaths = () => {
     }
 }
 
-const Area51Post: InferGetStaticPropsType<typeof getStaticProps> = ({ postData }: { postData: any }) => {
+const Area51Post: InferGetStaticPropsType<typeof getStaticProps> = ({ postData, images }: { postData: Post, images: string[] }) => {
     return (
         <Layout>
             <section className="flex flex-col gap-4 w-3/5">
                 <h1 className="text-4xl">{postData.title}</h1>
-                <img src={`/images/posts/area51/${postData.id}/carousel_1.jpg`} alt="Saskes" />
-                <div dangerouslySetInnerHTML={{__html: postData.contentHtml}}></div>
+                <div className="w-full my-6">
+                    <Carousel showThumbs={false}>
+                        {images.map(image => (
+                            <Image key={image} src={image} width={1351} height={768} layout="responsive" />
+                        ))}
+                    </Carousel>
+                </div>
+                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content || '' }}></div>
             </section>
         </Layout>
     )

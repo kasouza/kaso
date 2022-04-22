@@ -10,7 +10,7 @@ export default function Footer() {
                     <Icon path={mdiGithub} size={1} />
                 </a>
 
-                <a href="">
+                <a href="https://www.linkedin.com/in/kau%C3%A3-de-souza-costa-martins-moura-5892261b9/">
                     <Icon path={mdiLinkedin} size={1} />
                 </a>
             </address>
