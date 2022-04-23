@@ -9,6 +9,7 @@ export interface Post {
     description: string,
     date: Date,
     techs: string[],
+    hasDemo: boolean,
 
     content?: string
 }
@@ -48,7 +49,7 @@ export function staticPaths(subDir: string) {
  * @param id Post ID
  * @returns Post's data
  */
-export async function readFile(subDir: string, id: string): Promise<Post> {
+export async function readPost(subDir: string, id: string): Promise<Post> {
     const postPath = `${process.cwd()}/posts/${subDir}/${id}.md`
     const fileContent = fs.readFileSync(postPath)
 
@@ -58,15 +59,16 @@ export async function readFile(subDir: string, id: string): Promise<Post> {
         .use(html)
         .process(matterResult.content)
 
-    const { title, description, date, techs } = matterResult.data
+    const { title, description, date, techs, hasDemo } = matterResult.data
 
     return {
         id,
-        title: title as string,
-        description: description as string,
-        date: new Date(date as string),
-        techs: techs as string[],
-        content: contentHtml.toString()
+        title,
+        description,
+        date: new Date(date),
+        techs: techs,
+        content: contentHtml.toString(),
+        hasDemo
     }
 }
 
@@ -83,14 +85,15 @@ export function allPosts(subDir: string): Post[] {
         const content = fs.readFileSync(path)
 
         const matterResult = matter(content)
-        const { title, description, date, techs } = matterResult.data
+        const { title, description, date, techs, hasDemo } = matterResult.data
 
         return {
             id,
-            title: title as string,
-            description: description as string,
-            date: new Date(date as string),
-            techs: techs as string[]
+            title,
+            description,
+            date: new Date(date),
+            techs,
+            hasDemo
         }
     })
 

@@ -41,7 +41,7 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
 
                 <h3 className="">{postData.description}</h3>
                 <Link href={postHref}>
-                    <a tabIndex={-1} className="underline underline-offset-2">Read More</a>
+                    <a tabIndex={-1} className="underline underline-offset-2 hover:font-medium">Read More</a>
                 </Link>
 
                 <ul className="mt-4 flex flex-wrap items-center justify-center gap-1">

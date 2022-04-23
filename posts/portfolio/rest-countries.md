@@ -3,6 +3,7 @@ title: "REST Countries"
 description: "Lookup informations about a country"
 date: "2022-04-21"
 techs: ["typescript", "react", "tailwind"]
+hasDemo: true
 ---
 REST Countries is a web app where you can search for a country and see some informations about it. The UI is very simple and clean with o dark mode switch so you don't have to burn your beautiful eyes while trying to find out how many people live in Kenya!
 

@@ -3,6 +3,7 @@ title: KSHTTP
 description: "A HTTP library written in C++"
 date: "2022-04-21"
 techs: ["cpp"]
+hasDemo: false
 ---
 KaSouza's HTTP is probably the most different project in this portfolio, it isn't even for the Web! Well, actually it kinda is, but not in the frontend and also isn't a backend app, but actually a library to write servers!
 

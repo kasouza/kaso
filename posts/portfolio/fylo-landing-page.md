@@ -3,6 +3,7 @@ title: "Fylo Landing Page"
 description: "A landing page for a fictional company"
 date: "2022-04-21"
 techs: ["html", "css", "javascript"]
+hasDemo: true
 ---
 A landing page for a fictional company, with a form to register an email for early access. This page uses a dark theme with some waves to make smoother transitions between sections. It is also fully reponsive, working nicely in pretty much any screen size.
 

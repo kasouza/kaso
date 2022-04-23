@@ -9,6 +9,10 @@
     text-underline-offset: 2px;
 }
 
+.container a:hover {
+    color: rgb(55, 65, 81);
+}
+
 .container ul {
     list-style: circle;
 }

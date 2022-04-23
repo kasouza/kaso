@@ -5,9 +5,9 @@ export default function Contact() {
         <Layout>
             <section className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5">
                 <h1 className="text-4xl">Contact</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias eos reiciendis nisi a saepe recusandae fugiat accusamus dolores sunt quos temporibus tempora ab libero, expedita eum ex magnam id enim asperiores voluptatibus. Labore, laudantium. Placeat sit quo nostrum optio et esse facere fugit quas asperiores, voluptatem recusandae libero aliquam. Cupiditate!</p>
+                <p>If you want to talk to me for a freelance or just for a casual chat, hit me up on any of the bellow!</p>
 
-                <ul className="flex flex-col gap-2">
+                <ul className="mt-4 flex flex-col gap-2">
                     <li>
                         <a className="underline underline-offset-2 hover:font-medium" href="https://github.com/kasouza">Github</a>
                     </li>
