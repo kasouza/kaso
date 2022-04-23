@@ -26,9 +26,13 @@ export const sortPostsByDate = (a: Post, b: Post) => {
 
 export function postsIds(subDir: string) {
     const postsPath = `${process.cwd()}/posts/${subDir}/`
-    const ids = fs.readdirSync(postsPath).map(post => post.replace(/.md/, ''))
+    if (fs.lstatSync(postsPath).isDirectory()) {
+        const ids = fs.readdirSync(postsPath).map(post => post.replace(/.md/, ''))
+    
+        return ids
+    }
 
-    return ids
+    return []
 }
 
 /**
