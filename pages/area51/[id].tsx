@@ -11,7 +11,7 @@ import { getIcon, getDisplayName } from "../../lib/icons"
 
 export const getStaticProps: GetStaticProps = async context => {
     const { id }: { id: string } = context.params as any
-
+    
     const postData = await readPost('area51', id)
     const images = getPostCarouselImages('area51', id)
 
