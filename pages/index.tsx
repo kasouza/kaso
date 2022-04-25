@@ -16,7 +16,7 @@ const Home = ({ posts }: { posts: PostData[] }) => {
     <Layout>
       <section className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5">
         <h1 className="text-4xl">KASO</h1>
-        <p>Hi! I'm Kauã de Souza (kaso or kasouza), fullstack web developer, born and raised in Rio de Janeiro, Brazil and passionate about anything tech-related and this is my personal website! Here you'll find some of the projects I developed in the <Link href="portfolio"><a className="underline underline-offset-2 hover:text-gray-700 transition-colors">Portfolio</a></Link>, what I've beeing doing recently in the <Link href="/blog"><a className="underline underline-offset-2 hover:text-gray-700 transition-colors">Blog</a></Link> and other side projects and fun little experiments in the <Link href="/area51"><a className="underline underline-offset-2 hover:text-gray-700 transition-colors">Area51</a></Link>.</p>
+        <p>Hi! I&apos;m Kauã de Souza (kaso or kasouza), fullstack web developer, born and raised in Rio de Janeiro, Brazil and passionate about anything tech-related and this is my personal website! Here you&apos;ll find some of the projects I developed in the <Link href="/portfolio"><a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Portfolio</a></Link>, what I&apos;ve beeing doing recently in the <Link href="/blog"><a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Blog</a></Link> and other side projects and fun little experiments in the <Link href="/area51"><a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Area51</a></Link>.</p>
       </section>
 
       <section className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5">
@@ -26,10 +26,10 @@ const Home = ({ posts }: { posts: PostData[] }) => {
 
         <div className="flex flex-col gap-1">
           {posts.length === 0
-            ? <h2 className="text-xl">Coming Soon...</h2>
+            ? <h2 className="mt-4 mb-8 text-xl italic">Coming Soon...</h2>
             : posts.map((post) => (
               <Link key={post.id} href={`/blog/${post.id}`}>
-                <a className="flex gap-8 hover:font-medium">
+                <a className="flex gap-8 hover:text-gray-700 dark:hover:text-gray-300">
                   <span className="whitespace-nowrap">{post.date.toLocaleDateString()}</span>
                   <span className="whitespace-nowrap text-ellipsis overflow-hidden">{post.description}</span>
                 </a>

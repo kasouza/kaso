@@ -1,5 +1,6 @@
 .overlay {
     opacity: 0;
+    transition: opacity 80ms ease-in-out;
 }
 
 .overlay * {

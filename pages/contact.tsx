@@ -10,13 +10,13 @@ export default function Contact() {
 
                 <ul className="mt-4 flex flex-col gap-2">
                     <li>
-                        <a className="underline underline-offset-2 hover:font-medium" href="https://github.com/kasouza">Github</a>
+                        <a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300" href="https://github.com/kasouza">Github</a>
                     </li>
                     <li>
-                        <a className="underline underline-offset-2 hover:font-medium" href="https://www.linkedin.com/in/kau%C3%A3-de-souza-costa-martins-moura-5892261b9/">Linkedin</a>
+                        <a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300" href="https://www.linkedin.com/in/kau%C3%A3-de-souza-costa-martins-moura-5892261b9/">Linkedin</a>
                     </li>
                     <li>
-                        <a className="underline underline-offset-2 hover:font-medium" href="mailto:kaua.scmm@gmail.com">kaua.scmm@gmail.com</a>
+                        <a className="underline underline-offset-2 hover:text-gray-700 dark:hover:text-gray-300" href="mailto:kaua.scmm@gmail.com">kaua.scmm@gmail.com</a>
                     </li>
                 </ul>
             </section>
