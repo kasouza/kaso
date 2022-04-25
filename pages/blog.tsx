@@ -1,6 +1,7 @@
+import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/Layout";
-import { Post, sortedPosts, sortPostsByDate } from "../lib/posts";
+import { PostData, sortedPosts, sortPostsByDate } from "../lib/posts";
 
 export const getStaticProps = () => {
     return {
@@ -10,14 +11,14 @@ export const getStaticProps = () => {
     }
 }
 
-export default function Blog({ posts }: { posts: Post[] }) {
+export default function Blog({ posts }: { posts: PostData[] }) {
     return (
-        <Layout>
+        <Layout title="Blog">
             <section className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5">
                 <h1 className="text-4xl">Blog</h1>
                 <div className="flex flex-col gap-1">
                     {posts.length === 0
-                        ? <h2 className="mx-auto my-4 text-6xl">Coming Soon...</h2>
+                        ? <h2 className="mx-auto my-4 text-2xl md:text-5xl">Coming Soon...</h2>
                         : posts.map(post => (
                             <Link key={post.id} href={`/blog/${post.id}`}>
                                 <a className="flex gap-8 hover:font-medium">

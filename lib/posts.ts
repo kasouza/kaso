@@ -1,9 +1,11 @@
 import fs from "fs"
 import matter from "gray-matter"
+import { GetStaticPropsContext, PreviewData } from "next"
+import { ParsedUrlQuery } from "querystring"
 import { remark } from "remark"
 import html from "remark-html"
 
-export interface Post {
+export interface PostData {
     id: string,
     title: string,
     description: string,
@@ -14,7 +16,7 @@ export interface Post {
     content?: string
 }
 
-export const sortPostsByDate = (a: Post, b: Post) => {
+export const sortPostsByDate = (a: PostData, b: PostData) => {
     const aTime = a.date.getTime()
     const bTime = b.date.getTime()
 
@@ -28,7 +30,7 @@ export function postsIds(subDir: string) {
     const postsPath = `${process.cwd()}/posts/${subDir}/`
     if (fs.lstatSync(postsPath).isDirectory()) {
         const ids = fs.readdirSync(postsPath).filter(path => path !== '.gitkeep').map(post => post.replace(/.md/, ''))
-    
+
         return ids
     }
 
@@ -38,13 +40,53 @@ export function postsIds(subDir: string) {
 /**
  * 
  * @param subDir A directory under /posts/
- * @returns A list of possible paths
+ * @returns A list of possible paths for the posts
  */
-export function staticPaths(subDir: string) {
+export function postsPaths(subDir: string) {
     const ids = postsIds(subDir)
     const paths = ids.map(id => `/${subDir}/${id}`)
 
     return paths
+}
+
+export async function getPostData(context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>, subDir: string) {
+    if (!context.params) return
+
+    const { id } = context.params
+    if (!id || Array.isArray(id)) return
+
+    const postData = await readPost(subDir, id)
+    const images = getPostCarouselImages(subDir, id)
+
+    return {
+        postData,
+        images,
+    }
+}
+
+/** 
+ * @param subDir A directory under /posts/
+ * @returns A list of possible paths for the demonstrations
+*/
+export function demoPaths(subDir: string) {
+    return (allPosts(subDir)
+        .filter(post => post.hasDemo)
+        .map(post => `/${subDir}/demo/${post.id}`))
+}
+
+export async function demoPostData(context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>, subDir: string) {
+    if (!context.params) return { props: {} }
+
+    const { id } = context.params
+    if (!id || Array.isArray(id)) return { props: {} }
+
+    const postData = await readPost('portfolio', id)
+
+    return {
+        props: {
+            postData,
+        }
+    }
 }
 
 /**
@@ -53,7 +95,7 @@ export function staticPaths(subDir: string) {
  * @param id Post ID
  * @returns Post's data
  */
-export async function readPost(subDir: string, id: string): Promise<Post> {
+export async function readPost(subDir: string, id: string): Promise<PostData> {
     const postPath = `${process.cwd()}/posts/${subDir}/${id}.md`
     const fileContent = fs.readFileSync(postPath)
 
@@ -81,10 +123,10 @@ export async function readPost(subDir: string, id: string): Promise<Post> {
  * @param subDir A directory under /posts/
  * @returns A list of posts (metadata only, no content)
  */
-export function allPosts(subDir: string): Post[] {
+export function allPosts(subDir: string): PostData[] {
     const paths = postsIds(subDir)
 
-    const posts = paths.map((id): Post => {
+    const posts = paths.map((id): PostData => {
         const path = `${process.cwd()}/posts/${subDir}/${id}.md`
         const content = fs.readFileSync(path)
 
@@ -104,14 +146,14 @@ export function allPosts(subDir: string): Post[] {
     return posts
 }
 
-type compare = (a: Post, b: Post) => number
+type compare = (a: PostData, b: PostData) => number
 /**
  * 
  * @param subDir A directory under /posts/
  * @param limit Max number of posts
  * @returns A list of sorted posts 
  */
-export function sortedPosts(subDir: string, sortingFunction: compare, limit?: number): Post[] {
+export function sortedPosts(subDir: string, sortingFunction: compare, limit?: number): PostData[] {
     const posts = allPosts(subDir)
     return posts.sort(sortingFunction).slice(0, limit)
 }

@@ -1,6 +1,7 @@
+import Head from "next/head";
 import Layout from "../components/Layout";
 import ProjectList from "../components/ProjectList";
-import { Post, sortedPosts, sortPostsByDate } from "../lib/posts";
+import { PostData, sortedPosts, sortPostsByDate } from "../lib/posts";
 
 export const getStaticProps = () => {
     return {
@@ -10,9 +11,9 @@ export const getStaticProps = () => {
     }
 }
 
-export default function Portfolio({ posts }: { posts: Post[] }) {
+export default function Portfolio({ posts }: { posts: PostData[] }) {
     return (
-        <Layout>
+        <Layout title="Portfolio">
             <section className="flex flex-col items-center gap-12">
                 <div className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5 mx-auto">
                     <h1 className="text-4xl">Portfolio</h1>

@@ -1,8 +1,9 @@
+import Head from "next/head";
 import Layout from "../components/Layout";
 
 export default function Contact() {
     return (
-        <Layout>
+        <Layout title="Contact">
             <section className="flex flex-col gap-4 w-11/12 md:w-4/5 lg:w-3/5">
                 <h1 className="text-4xl">Contact</h1>
                 <p>If you want to talk to me for a freelance or just for a casual chat, hit me up on any of the bellow!</p>

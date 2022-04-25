@@ -1,71 +1,29 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPageContext } from "next"
-import { Carousel } from "react-responsive-carousel"
-import Layout from "../../components/Layout"
-import { getPostCarouselImages, Post, readPost, staticPaths } from "../../lib/posts"
-import Image from "next/image"
-
-import styles from "../../styles/Post.module.css"
 
 import "../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css"
-import Link from "next/link"
-import Icon from "@mdi/react"
-import { getDisplayName, getIcon } from "../../lib/icons"
+import Post from "../../components/Post"
+import { getPostData, postsPaths, PostData } from "../../lib/posts"
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { id }: { id: string } = context.params as any
-
-    const postData = await readPost('portfolio', id)
-    const images = getPostCarouselImages('portfolio', id)
+    const data = await getPostData(context, 'portfolio')
 
     return {
         props: {
-            postData,
-            images,
+            ...data
         }
     }
 }
 
 export const getStaticPaths = () => {
     return {
-        paths: staticPaths('portfolio'),
+        paths: postsPaths('portfolio'),
         fallback: false,
     }
 }
 
-const PortfolioPost: InferGetStaticPropsType<typeof getStaticProps> = ({ postData, images }: { postData: Post, images: string[] }) => {
+const PortfolioPost: InferGetStaticPropsType<typeof getStaticProps> = ({ postData, images }: { postData: PostData, images: string[] }) => {
     return (
-        <Layout>
-            <section className="flex flex-col items-center gap-4 w-11/12 md:w-4/5 lg:w-3/5">
-                <h1 className="self-start text-4xl">{postData.title}</h1>
-                <div className="w-full my-6">
-                    <Carousel showThumbs={false}>
-                        {images.map(image => (
-                            <Image key={image} src={image} width={1351} height={768} layout="responsive" />
-                        ))}
-                    </Carousel>
-                </div>
-                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content || '' }}></div>
-                <div className="grid grid-cols-2 items-center w-4/5  my-16">
-                    <h2 className="col-span-2  mb-4 text-4xl">Techs</h2>
-
-                    <ul className="grid grid-rows-3 gap-1">
-                        {postData.techs.map(tech => (
-                            <li className="flex flex-row gap-1 items-center" key={tech}>
-                                <span>
-                                    <Icon path={getIcon(tech) || ''} size={0.75} />
-                                </span>
-                                <span className="whitespace-nowrap">{getDisplayName(tech)}</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="justify-self-end">
-                        <Link href={`/portfolio/demo/${postData.id}`}>
-                            <a className="block whitespace-nowrap px-4 py-2 text-2xl border border-black rounded-sm hover:border-gray-700 hover:text-gray-900">Try it Out!</a>
-                        </Link>
-                    </div>
-                </div>
-            </section>
-        </Layout>
+        <Post subDir="portfolio" postData={postData} images={images} />
     )
 }
 

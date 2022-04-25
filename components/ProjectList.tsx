@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Router from "next/router"
 import React, { FC, KeyboardEventHandler, useEffect, useState } from "react"
-import { Post } from "../lib/posts"
+import { PostData } from "../lib/posts"
 import Image from "next/image"
 import classNames from "classnames"
 import Icon from "@mdi/react"
@@ -9,7 +9,7 @@ import { getDisplayName, getIcon } from "../lib/icons"
 
 interface PostProps {
     subDirectory: string,
-    postData: Post
+    postData: PostData
 }
 
 const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
@@ -31,7 +31,7 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
     }
 
     return (
-        <li tabIndex={0} onKeyUp={handleKeyUp} onFocus={show} onBlur={hide} onMouseEnter={show} onMouseLeave={hide} onTouchEnd={toggleShow} className="relative min-w-[256px] shadow-lg">
+        <li tabIndex={0} onKeyUp={handleKeyUp} onFocus={show} onBlur={hide} onMouseEnter={show} onMouseLeave={hide} onClick={toggleShow} className="relative min-w-[256px] shadow-lg">
             <div>
                 <Image layout="responsive" src={`/images/posts/${subDirectory}/${postData.id}/thumb.jpg`} width={256} height={256} />
             </div>
@@ -64,7 +64,7 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
 
 interface ProjectListProps {
     subDirectory: string,
-    posts: Post[]
+    posts: PostData[]
 }
 
 export default function ProjectList({ subDirectory, posts }: ProjectListProps) {

@@ -1,14 +1,19 @@
+import Head from "next/head";
 import { FC } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 
 interface DemoLayoutProps {
+    title: string,
     iframeSrc: string,
 }
 
-const DemoLayout: FC<DemoLayoutProps> = ({ iframeSrc }) => {
+const DemoLayout: FC<DemoLayoutProps> = ({ title, iframeSrc }) => {
     return (
         <div className="flex flex-col w-full min-h-screen">
+            <Head>
+                <title>KASO - {title}</title>
+            </Head>
             <div>
                 <Header />
             </div>
