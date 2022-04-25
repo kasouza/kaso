@@ -7,6 +7,8 @@ import classNames from "classnames"
 import Icon from "@mdi/react"
 import { getDisplayName, getIcon } from "../lib/icons"
 
+import styles from "../styles/ProjectList.module.css"
+
 interface PostProps {
     subDirectory: string,
     postData: PostData
@@ -18,11 +20,23 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
     const postHref = `/${subDirectory}/${postData.id}`
 
     const toggleShow = () => {
+        console.log('dakldasldlas')
         setShowing(!showing)
     }
 
-    const show = () => setShowing(true)
-    const hide = () => setShowing(false)
+    useEffect(() => {
+        console.log(showing)
+    })
+
+    const show = () => {
+        setShowing(true)
+        console.log("show")
+    }
+    const hide = () => {
+
+        setShowing(false)
+        console.log("hide")
+    }
 
     // Used for keyboard based navigation
     const handleKeyUp: KeyboardEventHandler<HTMLLIElement> = e => {
@@ -31,12 +45,12 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
     }
 
     return (
-        <li tabIndex={0} onKeyUp={handleKeyUp} onFocus={show} onBlur={hide} onMouseEnter={show} onMouseLeave={hide} onClick={toggleShow} className="relative min-w-[256px] shadow-lg">
+        <li tabIndex={0} onKeyUp={handleKeyUp} onMouseLeave={hide} onClick={toggleShow}  className={classNames('relative min-w-[256px] shadow-lg', styles.container)}>
             <div>
                 <Image layout="responsive" src={`/images/posts/${subDirectory}/${postData.id}/thumb.jpg`} width={256} height={256} />
             </div>
 
-            <div className={classNames('p-1 text-center flex flex-col gap-2 items-center justify-center absolute inset-0 bg-white bg-opacity-95', { 'hidden': !showing })}>
+            <div className={classNames('p-1 text-center flex flex-col gap-2 items-center justify-center absolute inset-0 bg-white bg-opacity-95', styles.overlay, { [styles.show]: showing})}>
                 <h2 className="text-2xl">{postData.title}</h2>
 
                 <h3 className="">{postData.description}</h3>

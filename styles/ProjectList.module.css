@@ -1,0 +1,32 @@
+.overlay {
+    opacity: 0;
+}
+
+.overlay * {
+    pointer-events: none;
+}
+
+.overlay.show {
+    opacity: 100%;
+}
+
+.overlay.show * {
+    pointer-events: auto;
+}
+
+@media screen and (pointer: fine) {
+    .overlay:hover {
+        opacity: 100%;
+    }
+    .overlay:hover * {
+        pointer-events: auto;
+    }
+    
+    .container:focus-visible .overlay {
+        opacity: 100%;
+    }
+    
+    .container:focus-visible .overlay * {
+        pointer-events: auto;
+    }
+}
