@@ -28,7 +28,8 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
                     </Carousel>
                 </div>
 
-                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content || '' }}></div>
+                {/* Little hack to make links open in new page */}
+                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content?.replaceAll('<a', '<a target="_blank"') || '' }}></div>
 
                 <div className="grid grid-cols-1 justify-items-center md:justify-items-start items-center w-full md:w-4/5  my-16">
                     <h2 className="md:col-span-2 mb-4 text-4xl">Techs</h2>
@@ -45,7 +46,7 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
                     </ul>
                     <div className="justify-items-center md:justify-self-end mt-16 md:mt-0">
                         <Link href={`/${subDir}/demo/${postData.id}`}>
-                            <a className="block whitespace-nowrap px-4 py-2 text-2xl border border-black dark:border-white rounded-sm hover:border-gray-700 hover:text-gray-900 dark:hover:border-gray-400 dark:hover:text-gray-400 transition-colors">Try it Out!</a>
+                            <a className="block whitespace-nowrap px-4 py-2 text-2xl border-default hover-default transition-colors">Try it Out!</a>
                         </Link>
                     </div>
                 </div>

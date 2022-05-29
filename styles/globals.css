@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .border-default {
+        @apply border border-black dark:border-white border-opacity-60 dark:border-opacity-60 rounded-sm;
+    }
+
+    .hover-default {
+        @apply dark:hover:border-gray-300 hover:border-black;
+    }
+}

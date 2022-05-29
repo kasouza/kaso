@@ -36,7 +36,7 @@ export default function Header() {
                     <Link href="/portfolio"><a className="whitespace-nowrap hover:text-gray-700 dark:hover:text-gray-300 transition-colors w-full text-center">Portfolio</a></Link>
                     <Link href="/contact"><a className="whitespace-nowrap hover:text-gray-700 dark:hover:text-gray-300 transition-colors w-full text-center">Contact</a></Link>
                     <Link href="/area51"><a className="whitespace-nowrap hover:text-gray-700 dark:hover:text-gray-300 transition-colors w-full text-center">Area 51</a></Link>
-                    <button title="Switch color scheme" className="w-full text-center flex justify-center items-center pb-2 pt-8 md:py-0 border-t md:border-none border-t-gray-300 dark:border-t-gray-800" onClick={toggleDarkMode}><Icon path={isDark ? mdiWhiteBalanceSunny : mdiMoonWaxingCrescent } rotate={35} size={1} /></button>
+                    <button title="Change color scheme" className="w-full text-center flex justify-center items-center pb-2 pt-8 md:py-0 border-t md:border-none border-t-gray-300 dark:border-t-gray-800  dark:translate-y-0.5" onClick={toggleDarkMode}><Icon path={isDark ? mdiWhiteBalanceSunny : mdiMoonWaxingCrescent } rotate={isDark ? 0 : 35} size={1} /></button>
                 </Hamburger>
             </div>
         </header>

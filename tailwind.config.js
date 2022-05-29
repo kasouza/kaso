@@ -12,6 +12,9 @@ module.exports = {
       lineHeight: {
         // normal: 2
       },
+      colors: {
+        'red-error': '#cc4444',
+      }
     },
   },
   plugins: [],
