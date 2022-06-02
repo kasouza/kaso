@@ -36,7 +36,7 @@ const PostComponent: FC<PostProps> = ({ subDirectory, postData }) => {
     return (
         <li tabIndex={0} onKeyUp={handleKeyUp} onMouseLeave={hide} onClick={toggleShow}  className={classNames('relative min-w-[256px] shadow-lg dark:border border-opacity-20 border-white', styles.container)}>
             <div>
-                <Image layout="responsive" src={`/images/posts/${subDirectory}/${postData.id}/thumb.jpg`} width={256} height={256} />
+                <Image layout="responsive" src={`/images/posts/${subDirectory}/${postData.id}/thumb.jpg`} width={256} height={256} alt="Post thumbnail" />
             </div>
 
             <div className={classNames('p-1 text-center flex flex-col gap-2 items-center justify-center absolute inset-0 bg-white dark:bg-black bg-opacity-95', styles.overlay, { [styles.show]: showing})}>

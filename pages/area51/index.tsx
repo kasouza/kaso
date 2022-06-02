@@ -23,7 +23,7 @@ export default function Area51({ posts }: { posts: PostData[] }) {
                     ? <h2 className="my-4 text-2xl md:text-3xl italic md:mt-8">Coming Soon...</h2>
                     : <ProjectList subDirectory="area51" posts={posts} />
                 }
-
+                </div>
             </section>
         </Layout>
     )

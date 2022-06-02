@@ -23,7 +23,7 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
                 <div className="w-full my-6 dark:border border-opacity-20 border-white">
                     <Carousel showThumbs={false}>
                         {images.map(image => (
-                            <Image key={image} src={image} width={1351} height={768} layout="responsive" />
+                            <Image key={image} src={image} width={1351} height={768} layout="responsive" alt="Carousel Image" />
                         ))}
                     </Carousel>
                 </div>

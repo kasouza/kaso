@@ -10,7 +10,6 @@ export default function Header() {
     useEffect(() => {
         const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
         setIsDark(prefersDarkMode)
-        console.log(prefersDarkMode)
     }, [])
 
     useEffect(() => {

@@ -5,12 +5,6 @@ import { validateEmail } from "../../lib/email";
 import FormItem, { FormItemProps, FormItemType } from "./FormItem"
 
 export interface Input {
-    value?: string
-    setValue?: Dispatch<SetStateAction<string>>,
-
-    error?: string,
-    setError?: Dispatch<SetStateAction<string>>,
-
     name: string,
     displayName: string,
     placeholder: string,
@@ -25,59 +19,54 @@ interface FormProps {
 }
 
 const Form: FC<FormProps> = ({ inputs, onSubmit, action, method }) => {
-    const values = inputs.map((input): [string, React.Dispatch<React.SetStateAction<string>>] => {
-        const val = input.value || ''
-
-        if (input.setValue) {
-            return [val, input.setValue]
-        }
-
-        return useState(val)
-    })
-
-    const errors = inputs.map((input): [string, React.Dispatch<React.SetStateAction<string>>] => {
-        const err = input.error || ''
-
-        if (input.setError) {
-            return [err, input.setError]
-        }
-
-        return useState(err)
-    })
+    const [values, setValues] = useState<string[]>(Array(inputs.length).fill(''))
+    const [errors, setErrors] = useState<string[]>(Array(inputs.length).fill(''))
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback((e) => {
-        let ok = true;
+        const newErrors: string[] = [...errors]
+
+        let ok = true
         inputs.forEach((input, i) => {
             if (input.type === 'submit') {
                 return;
             }
 
-            if (values[i][0] === '') {
-                errors[i][1](`${input.displayName} cannot be empty.`)
+            if (values[i] === '') {
+                newErrors[i] = `${input.displayName} cannot be empty.`
                 ok = false
 
-            } else if (input.type === 'email' && !validateEmail(values[i][0])) {
-                errors[i][1]('Invalid email address')
+            } else if (input.type === 'email' && !validateEmail(values[i])) {
+                newErrors[i] = 'Invalid email address'
                 ok = false
             }
         })
 
         if (!ok) {
             e.preventDefault()
-            
+            setErrors(newErrors)
+
         } else {
             if (onSubmit) {
                 const data = new Map<string, string>()
-                inputs.forEach((input, i) => data.set(input.name, values[i][0]))
+                inputs.forEach((input, i) => data.set(input.name, values[i]))
                 onSubmit(data);
             }
         }
-    }, [values, errors]);
+    }, [errors, inputs, onSubmit, values]);
+
+    // Creates a setter function for a specific state(errors/values) and idx(idx in input array)
+    const createSetter = useCallback((i: number, setter: React.Dispatch<React.SetStateAction<string[]>>) => (val: string) => {
+        setter(current => {
+            const newArr = [...current]
+            newArr[i] = val
+            return newArr
+        })
+    }, [])
 
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit} action={action || ''} method={method || 'get'} >
             {inputs.map((input, i) => (
-                <FormItem  {...input} key={i} value={values[i][0]} setValue={values[i][1]} error={errors[i][0]} setError={errors[i][1]} />
+                <FormItem  {...input} key={i} value={values[i]} setValue={createSetter(i, setValues)} error={errors[i]} setError={createSetter(i, setErrors)} />
             ))}
 
             <button className="self-center mt-8 px-6 py-1 border-default hover-default" type="submit">Submit</button>

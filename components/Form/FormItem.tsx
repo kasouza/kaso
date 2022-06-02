@@ -1,14 +1,14 @@
 import classNames from "classnames";
-import { ChangeEventHandler, Dispatch, FC, SetStateAction, useEffect } from "react";
+import { ChangeEventHandler, Dispatch, FC, SetStateAction } from "react";
 
 export type FormItemType = 'text' | 'submit' | 'textarea' | 'email' | 'password';
 
 export interface FormItemProps {
     value: string
-    setValue: Dispatch<SetStateAction<string>>,
+    setValue: (val: string) => void,
 
     error: string,
-    setError: Dispatch<SetStateAction<string>>,
+    setError: (err: string) => void,
 
     name: string,
     displayName: string,

@@ -1,6 +1,6 @@
-import React, { ReactElement, TableHTMLAttributes, useCallback } from "react";
-import { FC, ReactChildren, useState } from "react";
-import Tab, { TabProps } from "./Tab"
+import React, { ReactElement } from "react";
+import { FC, useState } from "react";
+import { TabProps } from "./Tab"
 
 export interface TabLayoutProps {
     children: ReactElement<TabProps> | ReactElement<TabProps>[]
