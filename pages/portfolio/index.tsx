@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Layout from "../components/Layout";
-import ProjectList from "../components/ProjectList";
-import { PostData, sortedPosts, sortPostsByDate } from "../lib/posts";
+import Layout from "../../components/Layout";
+import ProjectList from "../../components/ProjectList";
+import { PostData, sortedPosts, sortPostsByDate } from "../../lib/posts";
 
 export const getStaticProps = () => {
     return {
