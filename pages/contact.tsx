@@ -3,10 +3,6 @@ import Form from "../components/Form/Form";
 import Layout from "../components/Layout";
 
 export default function Contact() {
-    const handleSubmit = useCallback((data: Map<string, string>) => {
-
-    }, [])
-
     return (
         <Layout title="Contact">
             <section className="flex flex-col gap-12 w-11/12 md:w-4/5 lg:w-3/5 mb-16">

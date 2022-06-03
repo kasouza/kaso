@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next";
+import { getAllMessages, Message, postMessage } from "../../lib/messages";
 
 export interface ReqBody {
     email: string,
@@ -7,9 +8,21 @@ export interface ReqBody {
     message: string,
 }
 
-const handler:NextApiHandler = (req, res) => {
-    const reqBody = req.body as ReqBody
-    res.status(200).json({ name: 'saske' })
+const handler: NextApiHandler = async (req, res) => {
+    if (req.method === 'GET') {
+        const messages = await getAllMessages()
+        res.status(200).json(messages)
+
+    } else {
+        const reqBody = req.body as ReqBody
+        postMessage(new Message(
+            'SASKE',
+            'ruimderpvp@gmial.com',
+            'dkadsa',
+            'dkasldasdlsakdçalsfkas',
+        ))
+        res.status(200).json({ name: 'saske' })
+    }
 }
 
 export default handler;
