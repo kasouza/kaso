@@ -1,5 +1,4 @@
 import Icon from "@mdi/react"
-import Link from "next/link"
 import { FC } from "react"
 import { Carousel } from "react-responsive-carousel"
 import { getIcon, getDisplayName } from "../lib/icons"
@@ -12,7 +11,7 @@ import styles from "../styles/Post.module.css"
 interface PostProps {
     subDir: string,
     postData: PostData,
-    images: string[],
+    images?: string[],
 }
 
 const Post: FC<PostProps> = ({ subDir, postData, images }) => {
@@ -20,13 +19,15 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
         <Layout title={postData.title}>
             <section className="flex flex-col items-center gap-4 w-11/12 md:w-4/5 lg:w-3/5">
                 <h1 className="self-start text-4xl">{postData.title}</h1>
-                <div className="w-full my-6 dark:border border-opacity-20 border-white">
-                    <Carousel showThumbs={false}>
-                        {images.map(image => (
-                            <Image key={image} src={image} width={1351} height={768} layout="responsive" alt="Carousel Image" />
-                        ))}
-                    </Carousel>
-                </div>
+                {images && images.length > 0 &&
+                    <div className="w-full my-6 dark:border border-opacity-20 border-white">
+                        <Carousel showThumbs={false}>
+                            {images.map(image => (
+                                <Image key={image} src={image} width={1351} height={768} layout="responsive" alt="Carousel Image" />
+                            ))}
+                        </Carousel>
+                    </div>
+                }
 
                 {/* Little hack to make links open in new page */}
                 <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content?.replaceAll('<a', '<a target="_blank"') || '' }}></div>
@@ -44,11 +45,11 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
                             </li>
                         ))}
                     </ul>
-                    <div className="justify-items-center md:justify-self-end mt-16 md:mt-0">
-                        <Link href={`/${subDir}/demo/${postData.id}`}>
-                            <a className="block whitespace-nowrap px-4 py-2 text-2xl border-default hover-default transition-colors">Try it Out!</a>
-                        </Link>
-                    </div>
+                    {postData.demoURL &&
+                        <div className="justify-items-center md:justify-self-end mt-16 md:mt-0">
+                            <a target="_blank" rel="noreferrer" href={postData.demoURL} className="block whitespace-nowrap px-4 py-2 text-2xl border-default hover-default transition-colors">Try it Out!</a>
+                        </div>
+                    }
                 </div>
             </section>
         </Layout>

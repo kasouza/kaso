@@ -26,7 +26,7 @@ const Home = ({ posts }: { posts: PostData[] }) => {
 
         <div className="flex flex-col gap-1">
           {posts.length === 0
-            ? <h2 className="mt-4 mb-8 text-xl italic">Coming Soon...</h2>
+            ? <h2 className="font-base mx-auto my-4 text-2xl italic md:text-3xl md:mt-8">Coming Soon...</h2>
             : posts.map((post) => (
               <Link key={post.id} href={`/blog/${post.id}`}>
                 <a className="flex gap-8 hover:text-gray-700 dark:hover:text-gray-300">

@@ -3,7 +3,7 @@ title: "WVim"
 description: "A vim clone for the web"
 date: "2022-04-21"
 techs: ["html", "css", "javascript"]
-hasDemo: true
+demoURL: "/demo/portfolio/wvim/index.html"
 ---
 WVim (WebVim) is a very simple clone of the famous Vim text editor, but with just some basic features. I never pretended to make an actual full-fledged Vim clone with this project, it was made just for the fun of doing it and to see if I actually could do something.
 

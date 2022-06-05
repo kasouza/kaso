@@ -1,15 +1,5 @@
-import Layout from "../../components/Layout";
-import ProjectList from "../../components/ProjectList";
-import { PostData, sortedPosts, sortPostsByDate } from "../../lib/posts";
-
-export const getStaticProps = () => {
-    return {
-        props: {
-            posts: sortedPosts('area51', sortPostsByDate).reverse()
-        }
-    }
-}
-
+import Layout from "../components/Layout";
+import { PostData } from "../lib/posts";
 
 export default function Area51({ posts }: { posts: PostData[] }) {
     return (
@@ -19,10 +9,8 @@ export default function Area51({ posts }: { posts: PostData[] }) {
                     <h1 className="text-4xl">Area 51</h1>
                     <p>Hi, again! Here at the Area 51 we have some of the craziest experiments and little projects I developed. I really love graphics programming (and programming in general), so expect to find some cool things in here.</p>
 
-                {posts.length === 0
-                    ? <h2 className="my-4 text-2xl md:text-3xl italic md:mt-8">Coming Soon...</h2>
-                    : <ProjectList subDirectory="area51" posts={posts} />
-                }
+                    <h2 className="mx-auto my-4 text-2xl md:text-3xl italic md:mt-8">Coming Soon...</h2>
+                    {/* <ProjectList subDirectory="area51" posts={posts} /> */}
                 </div>
             </section>
         </Layout>

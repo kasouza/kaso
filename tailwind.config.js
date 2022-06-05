@@ -6,7 +6,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Raleway', 'sans-serif']
+      sans: ['Open Sans', 'sans-serif']
+
     },
     extend: {
       lineHeight: {

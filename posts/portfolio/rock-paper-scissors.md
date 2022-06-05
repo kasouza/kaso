@@ -3,7 +3,7 @@ title: "Rock Paper Scissors"
 description: "A Web-based Rock, Paper and Scissors game"
 date: "2022-04-21"
 techs: ["react", "typescript", "jss"]
-hasDemo: true
+demoURL: "/demo/portfolio/rock-paper-scissors/index.html"
 ---
 I guess you know how this one works! There's not much more than this to say about how it works, it's really just the good old rock paper scissors game!
 

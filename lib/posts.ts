@@ -11,7 +11,7 @@ export interface PostData {
     description: string,
     date: Date,
     techs: string[],
-    hasDemo: boolean,
+    demoURL: string,
 
     content?: string
 }
@@ -39,12 +39,12 @@ export function postsIds(subDir: string) {
 
 /**
  * 
- * @param subDir A directory under /posts/
+ * @param subdir A directory under /posts/
  * @returns A list of possible paths for the posts
  */
-export function postsPaths(subDir: string) {
-    const ids = postsIds(subDir)
-    const paths = ids.map(id => `/${subDir}/${id}`)
+export function postsPaths(subdir: string) {
+    const ids = postsIds(subdir)
+    const paths = ids.map(id => `/${subdir}/${id}`)
 
     return paths
 }
@@ -64,31 +64,6 @@ export async function getPostData(context: GetStaticPropsContext<ParsedUrlQuery,
     }
 }
 
-/** 
- * @param subDir A directory under /posts/
- * @returns A list of possible paths for the demonstrations
-*/
-export function demoPaths(subDir: string) {
-    return (allPosts(subDir)
-        .filter(post => post.hasDemo)
-        .map(post => `/${subDir}/demo/${post.id}`))
-}
-
-export async function demoPostData(context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>, subDir: string) {
-    if (!context.params) return { props: {} }
-
-    const { id } = context.params
-    if (!id || Array.isArray(id)) return { props: {} }
-
-    const postData = await readPost('portfolio', id)
-
-    return {
-        props: {
-            postData,
-        }
-    }
-}
-
 /**
  * 
  * @param subDir A directory under /posts/
@@ -105,7 +80,7 @@ export async function readPost(subDir: string, id: string): Promise<PostData> {
         .use(html)
         .process(matterResult.content)
 
-    const { title, description, date, techs, hasDemo } = matterResult.data
+    const { title, description, date, techs, demoURL } = matterResult.data
 
     return {
         id,
@@ -114,7 +89,7 @@ export async function readPost(subDir: string, id: string): Promise<PostData> {
         date: new Date(date),
         techs: techs,
         content: contentHtml.toString(),
-        hasDemo
+        demoURL
     }
 }
 
@@ -131,7 +106,7 @@ export function allPosts(subDir: string): PostData[] {
         const content = fs.readFileSync(path)
 
         const matterResult = matter(content)
-        const { title, description, date, techs, hasDemo } = matterResult.data
+        const { title, description, date, techs, demoURL } = matterResult.data
 
         return {
             id,
@@ -139,7 +114,7 @@ export function allPosts(subDir: string): PostData[] {
             description,
             date: new Date(date),
             techs,
-            hasDemo
+            demoURL
         }
     })
 
@@ -162,11 +137,11 @@ export function sortedPosts(subDir: string, sortingFunction: compare, limit?: nu
  * 
  * @param subDir A directory under /posts/
  * @param id Post ID
- * @returns A list of images src
+ * @returns A list of image sources
  */
 export function getPostCarouselImages(subDir: string, id: string): string[] {
     const imagesPath = `${process.cwd()}/public/images/posts/${subDir}/${id}/carousel`
-    const images = fs.readdirSync(imagesPath).map(path => `/images/posts/${subDir}/${id}/carousel/${path}`)
+    const images = fs.readdirSync(imagesPath).map(filename => `/images/posts/${subDir}/${id}/carousel/${filename}`)
 
     return images
 }

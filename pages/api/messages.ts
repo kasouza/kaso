@@ -1,7 +1,6 @@
 import { NextApiHandler } from "next"
 import { getAllMessages, createMessage, deleteMessages } from "../../lib/messages/messages"
 import { Message } from "../../lib/messages/common"
-import { parse } from "path"
 
 export interface ReqBody {
     email: string,
@@ -14,6 +13,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (req.method === 'GET') {
         const messages = await getAllMessages()
         res.status(200).json(messages)
+        console.log(process.env.ADMIN_USER)
 
     } else if (req.method === 'POST') {
         const reqBody = req.body as ReqBody

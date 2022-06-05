@@ -3,7 +3,7 @@ title: "URL Shortener"
 description: "Generate a shortened link"
 date: "2022-04-21"
 techs: ["javascript", "react", "jss"]
-hasDemo: true
+demoURL: "/demo/portfolio/url-shortener/index.html"
 ---
 This app is quite simple, it generates a shortened version of a link inserted by the user. This is done using the [shrtco.de](https://shrtco.de/) API.
 

@@ -14,12 +14,8 @@ const DemoLayout: FC<DemoLayoutProps> = ({ title, iframeSrc }) => {
             <Head>
                 <title>KASO - {title}</title>
             </Head>
-            <div>
-                <Header />
-            </div>
-
             <main className="relative flex flex-col items-center w-full h-full flex-1">
-                <iframe className={"bg-white absolute inset-0 w-full h-full"} src={iframeSrc} frameBorder="0"></iframe>
+                <iframe className={"bg-white absolute inset-0 w-screen h-screen"} src={iframeSrc} frameBorder="0"></iframe>
             </main>
         </div>
     )
