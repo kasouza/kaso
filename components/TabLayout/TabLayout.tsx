@@ -12,8 +12,8 @@ const TabLayout: FC<TabLayoutProps> = ({ children }) => {
     const currentTab = React.Children.toArray(children)[currentTabIdx] as ReactElement<TabProps>
 
     return (
-        <div className="flex flex-col md:flex-row h-full w-11/12 gap-10">
-            <div className="border-default">
+        <div className="flex flex-col md:flex-row h-full w-11/12 md:w-4/5 gap-16">
+            <div className="mt-6 h-fit border-default">
                 <ol className="flex flex-col px-2">
                     {React.Children.map(children, (tab: ReactElement<TabProps>, i) => (
                         <li className="border-black dark:border-white border-opacity-60 dark:border-opacity-60 border-b last:border-b-0">
@@ -23,9 +23,11 @@ const TabLayout: FC<TabLayoutProps> = ({ children }) => {
                 </ol>
             </div>
 
-            <div className="w-full h-full border-default px-8 py-4">
-                <h1 className="text-xl">{currentTab.props.displayName}</h1>
-                <div></div>
+            <div className="flex flex-col gap-4 w-full h-full">
+                <h1 className="text-4xl">{currentTab.props.displayName}</h1>
+                <div>
+                    {currentTab}
+                </div>
             </div>
         </div>
     )

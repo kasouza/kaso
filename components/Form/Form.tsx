@@ -1,15 +1,8 @@
-import { stringify } from "querystring";
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { FC, ReactElement } from "react"
-import { validateEmail } from "../../lib/email";
-import FormItem, { FormItemProps, FormItemType } from "./FormItem"
+import React, { useCallback, useState } from "react";
+import { FC } from "react"
+import { Input } from "../../lib/input";
+import FormItem from "./FormItem"
 
-export interface Input {
-    name: string,
-    displayName: string,
-    placeholder: string,
-    type: FormItemType,
-}
 
 interface FormProps {
     inputs: Input[],
@@ -23,26 +16,30 @@ const Form: FC<FormProps> = ({ inputs, onSubmit, action, method }) => {
     const [errors, setErrors] = useState<string[]>(Array(inputs.length).fill(''))
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback((e) => {
+        e.preventDefault()
         const newErrors: string[] = [...errors]
 
         let ok = true
-        inputs.forEach((input, i) => {
-            if (input.type === 'submit') {
-                return;
-            }
+        // inputs.forEach((input, i) => {
+        //     if (input.type === 'submit') {
+        //         return;
+        //     }
 
-            if (values[i] === '') {
-                newErrors[i] = `${input.displayName} cannot be empty.`
-                ok = false
+        //     if (input.validations) {
+        //         for (const validator of input.validations) {
+        //             const result = validator(values[i])
 
-            } else if (input.type === 'email' && !validateEmail(values[i])) {
-                newErrors[i] = 'Invalid email address'
-                ok = false
-            }
-        })
+        //             if (!result.ok) {
+        //                 newErrors[i] = `${input.displayName} ${result.err}`
+        //                 ok = false
+
+        //                 break
+        //             }
+        //         }
+        //     }
+        // })
 
         if (!ok) {
-            e.preventDefault()
             setErrors(newErrors)
 
         } else {
@@ -64,7 +61,7 @@ const Form: FC<FormProps> = ({ inputs, onSubmit, action, method }) => {
     }, [])
 
     return (
-        <form className="flex flex-col gap-6" onSubmit={handleSubmit} action={action || ''} method={method || 'get'} >
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit} action={action || ''} method={method || 'GET'} >
             {inputs.map((input, i) => (
                 <FormItem  {...input} key={i} value={values[i]} setValue={createSetter(i, setValues)} error={errors[i]} setError={createSetter(i, setErrors)} />
             ))}

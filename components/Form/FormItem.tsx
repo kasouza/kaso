@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { ChangeEventHandler, Dispatch, FC, SetStateAction } from "react";
-
-export type FormItemType = 'text' | 'submit' | 'textarea' | 'email' | 'password';
+import { InputType } from "../../lib/input";
 
 export interface FormItemProps {
     value: string
@@ -13,7 +12,7 @@ export interface FormItemProps {
     name: string,
     displayName: string,
     placeholder: string,
-    type: FormItemType,
+    type: InputType,
 }
 
 const FormItem: FC<FormItemProps> = ({ value, setValue, error, setError, name, displayName, placeholder, type }) => {

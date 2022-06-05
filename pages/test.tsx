@@ -1,19 +1,19 @@
 import { useCallback, useState } from "react";
 import Layout from "../components/Layout";
-import { Message } from "../lib/messages";
+import { Message } from "../lib/messages/messages";
 
 export default function Test() {
     const [messages, setMessages] = useState<Message[]>([])
 
     const handlePost = useCallback(() => {
-        fetch('/api/saske', { method: 'post' }).then(async (ok) => {
+        fetch('/api/messages', { method: 'post' }).then(async (ok) => {
             const res = await ok.json()
             console.log(res)
         })
     }, [])
 
     const handleGet = useCallback(() => {
-        fetch('/api/saske').then(async (ok) => {
+        fetch('/api/messages').then(async (ok) => {
             const res = await ok.json()
             console.log(res)
             setMessages(res)
