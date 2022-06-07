@@ -11,45 +11,45 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 
 export interface PostData {
-    id: string,
-    title: string,
-    description: string,
-    date: Date,
-    techs: string[],
-    demoURL: string,
+	id: string,
+	title: string,
+	description: string,
+	date: Date,
+	techs: string[],
+	demoURL: string,
 
-    content?: string
+	content?: string
 }
 
 export const sortPostsByDate = (a: PostData, b: PostData) => {
-    const aTime = a.date.getTime()
-    const bTime = b.date.getTime()
+	const aTime = a.date.getTime()
+	const bTime = b.date.getTime()
 
-    if (aTime < bTime) return -1
-    if (aTime > bTime) return 1
+	if (aTime < bTime) return -1
+	if (aTime > bTime) return 1
 
-    return 0
+	return 0
 }
 
 export const sortPostsByDateReversed = (a: PostData, b: PostData) => {
-    const aTime = a.date.getTime()
-    const bTime = b.date.getTime()
+	const aTime = a.date.getTime()
+	const bTime = b.date.getTime()
 
-    if (aTime > bTime) return -1
-    if (aTime < bTime) return 1
+	if (aTime > bTime) return -1
+	if (aTime < bTime) return 1
 
-    return 0
+	return 0
 }
 
 export function postsIds(subDir: string) {
-    const postsPath = `${process.cwd()}/posts/${subDir}/`
-    if (fs.lstatSync(postsPath).isDirectory()) {
-        const ids = fs.readdirSync(postsPath).filter(path => path !== '.gitkeep').map(post => post.replace(/.md/, ''))
+	const postsPath = `${process.cwd()}/posts/${subDir}/`
+	if (fs.lstatSync(postsPath).isDirectory()) {
+		const ids = fs.readdirSync(postsPath).filter(path => path !== '.gitkeep').map(post => post.replace(/.md/, ''))
 
-        return ids
-    }
+		return ids
+	}
 
-    return []
+	return []
 }
 
 /**
@@ -58,25 +58,25 @@ export function postsIds(subDir: string) {
  * @returns A list of possible paths for the posts
  */
 export function postsPaths(subdir: string) {
-    const ids = postsIds(subdir)
-    const paths = ids.map(id => `/${subdir}/${id}`)
+	const ids = postsIds(subdir)
+	const paths = ids.map(id => `/${subdir}/${id}`)
 
-    return paths
+	return paths
 }
 
 export async function getPostData(context: GetStaticPropsContext<ParsedUrlQuery, PreviewData>, subDir: string) {
-    if (!context.params) return
+	if (!context.params) return
 
-    const { id } = context.params
-    if (!id || Array.isArray(id)) return
+	const { id } = context.params
+	if (!id || Array.isArray(id)) return
 
-    const postData = await readPost(subDir, id)
-    const images = getPostCarouselImages(subDir, id)
+	const postData = await readPost(subDir, id)
+	const images = getPostCarouselImages(subDir, id)
 
-    return {
-        postData,
-        images,
-    }
+	return {
+		postData,
+		images,
+	}
 }
 
 /**
@@ -86,30 +86,33 @@ export async function getPostData(context: GetStaticPropsContext<ParsedUrlQuery,
  * @returns Post's data
  */
 export async function readPost(subDir: string, id: string): Promise<PostData> {
-    const postPath = `${process.cwd()}/posts/${subDir}/${id}.md`
-    const fileContent = fs.readFileSync(postPath)
+	const postPath = `${process.cwd()}/posts/${subDir}/${id}.md`
+	const fileContent = fs.readFileSync(postPath)
 
-    const matterResult = matter(fileContent)
+	const matterResult = matter(fileContent)
 
-	const contentHtml = await unified()
-		.use(remarkParse)
-		.use(remarkMath)
-		.use(remarkRehype)
-		.use(rehypeMathjax, {svg: {scale: 1.5}})
-		.use(rehypeStringify)
-		.process(matterResult.content)
+	let contentHtml = ''
+	if (matterResult.content) {
+		contentHtml = (await unified()
+			.use(remarkParse)
+			.use(remarkMath)
+			.use(remarkRehype)
+			.use(rehypeMathjax, { svg: { scale: 1.5 } })
+			.use(rehypeStringify)
+			.process(matterResult.content)).toString()
+	}
 
-    const { title, description, date, techs, demoURL } = matterResult.data
+	const { title, description, date, techs, demoURL } = matterResult.data
 
-    return {
-        id,
-        title,
-        description,
-        date: new Date(date),
-        techs: techs,
-        content: contentHtml.toString(),
-        demoURL
-    }
+	return {
+		id,
+		title,
+		description,
+		date: new Date(date),
+		techs: techs,
+		content: contentHtml,
+		demoURL
+	}
 }
 
 /**
@@ -118,26 +121,26 @@ export async function readPost(subDir: string, id: string): Promise<PostData> {
  * @returns A list of posts (metadata only, no content)
  */
 export function allPosts(subDir: string): PostData[] {
-    const paths = postsIds(subDir)
+	const paths = postsIds(subDir)
 
-    const posts = paths.map((id): PostData => {
-        const path = `${process.cwd()}/posts/${subDir}/${id}.md`
-        const content = fs.readFileSync(path)
+	const posts = paths.map((id): PostData => {
+		const path = `${process.cwd()}/posts/${subDir}/${id}.md`
+		const content = fs.readFileSync(path)
 
-        const matterResult = matter(content)
-        const { title, description, date, techs, demoURL } = matterResult.data
+		const matterResult = matter(content)
+		const { title, description, date, techs, demoURL } = matterResult.data
 
-        return {
-            id,
-            title,
-            description,
-            date: new Date(date),
-            techs,
-            demoURL
-        }
-    })
+		return {
+			id,
+			title,
+			description,
+			date: new Date(date),
+			techs,
+			demoURL
+		}
+	})
 
-    return posts
+	return posts
 }
 
 type compare = (a: PostData, b: PostData) => number
@@ -148,8 +151,8 @@ type compare = (a: PostData, b: PostData) => number
  * @returns A list of sorted posts 
  */
 export function sortedPosts(subDir: string, sortingFunction: compare, limit?: number): PostData[] {
-    const posts = allPosts(subDir)
-    return posts.sort(sortingFunction).slice(0, limit)
+	const posts = allPosts(subDir)
+	return posts.sort(sortingFunction).slice(0, limit)
 }
 
 /**
@@ -159,8 +162,8 @@ export function sortedPosts(subDir: string, sortingFunction: compare, limit?: nu
  * @returns A list of image sources
  */
 export function getPostCarouselImages(subDir: string, id: string): string[] {
-    const imagesPath = `${process.cwd()}/public/images/posts/${subDir}/${id}/carousel`
-    const images = fs.readdirSync(imagesPath).map(filename => `/images/posts/${subDir}/${id}/carousel/${filename}`)
+	const imagesPath = `${process.cwd()}/public/images/posts/${subDir}/${id}/carousel`
+	const images = fs.readdirSync(imagesPath).map(filename => `/images/posts/${subDir}/${id}/carousel/${filename}`)
 
-    return images
+	return images
 }

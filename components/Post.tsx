@@ -14,7 +14,7 @@ interface PostProps {
     images?: string[],
 }
 
-const Post: FC<PostProps> = ({ subDir, postData, images }) => {
+const Post: FC<PostProps> = ({ postData, images }) => {
     return (
         <Layout title={postData.title}>
             <section className="flex flex-col items-center gap-4 w-11/12 md:w-4/5 lg:w-3/5">
