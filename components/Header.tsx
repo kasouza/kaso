@@ -18,7 +18,7 @@ export default function Header() {
 		// Position relative is needed for the Hamburger
 		<header className="flex justify-center items-center w-full py-6 relative">
 			<div className="flex justify-between items-center w-11/12">
-				<Link href="/"><a><span className="text-2xl hover:relative hover:text-gray-700 dark:hover:text-gray-300 transition-colors">KASO</span></a></Link>
+				<Link href="/"><a><span className="font-light text-2xl hover:relative hover:text-gray-700 dark:hover:text-gray-300 transition-colors">KASO</span></a></Link>
 
 				<Hamburger>
 					<Link href="/"><a className="whitespace-nowrap hover:text-gray-700 dark:hover:text-gray-300 transition-colors w-full text-center">Home</a></Link>
