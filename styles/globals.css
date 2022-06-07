@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Used to align method to the center */
+mjx-container svg {
+    margin: 0 auto;
+}
+
 @layer utilities {
     .border-default {
         @apply border border-black dark:border-white border-opacity-60 dark:border-opacity-60 rounded-sm;

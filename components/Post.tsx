@@ -29,7 +29,8 @@ const Post: FC<PostProps> = ({ subDir, postData, images }) => {
                     </div>
                 }
 
-                {/* Little hack to make links open in new page */}
+                {/* Little hack to make links open in new page and math is centered in the page */}
+                {/* FIXME: I totally need to change this */}
                 <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content?.replaceAll('<a', '<a target="_blank"') || '' }}></div>
 
                 <div className="grid grid-cols-1 justify-items-center md:justify-items-start items-center w-full md:w-4/5  my-16">

@@ -2,8 +2,14 @@ import fs from "fs"
 import matter from "gray-matter"
 import { GetStaticPropsContext, PreviewData } from "next"
 import { ParsedUrlQuery } from "querystring"
-import { remark } from "remark"
-import html from "remark-html"
+
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkMath from 'remark-math'
+import rehypeMathjax from 'rehype-mathjax'
+import remarkRehype from 'remark-rehype'
+import rehypeKatex from 'rehype-katex'
+import rehypeStringify from 'rehype-stringify'
 
 export interface PostData {
     id: string,
@@ -76,8 +82,12 @@ export async function readPost(subDir: string, id: string): Promise<PostData> {
 
     const matterResult = matter(fileContent)
 
-    const contentHtml = await remark()
-        .use(html)
+    const contentHtml = await unified()
+        .use(remarkParse)
+        .use(remarkMath)
+        .use(remarkRehype)
+        .use(rehypeMathjax, {svg: {scale: 1.5}})
+        .use(rehypeStringify)
         .process(matterResult.content)
 
     const { title, description, date, techs, demoURL } = matterResult.data

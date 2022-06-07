@@ -6,6 +6,7 @@ import TabLayout from "../../components/TabLayout/TabLayout";
 import { Message } from "../../lib/messages/common";
 import { Icon } from "@mdi/react"
 import { mdiArrowDown, mdiArrowUp, mdiCheckboxBlankOutline, mdiCheckboxMarkedOutline, mdiTrashCanOutline } from "@mdi/js";
+import { NextPageContext } from "next";
 
 interface ListItemProps {
     message: Message,
@@ -42,7 +43,7 @@ const ListItem: FC<ListItemProps> = ({ message, checked, setChecked }) => {
     )
 }
 
-export default function Admin() {
+export default function Admin({ user }: { user: boolean }) {
     const [messages, setMessages] = useState<Message[]>([])
     const [checkedMessages, setCheckedMessages] = useState<boolean[]>([])
     const [numChecked, setNumChecked] = useState(0)
@@ -107,6 +108,16 @@ export default function Admin() {
         setNumChecked(checkedMessages.filter(m => m).length)
     }, [checkedMessages])
 
+    if (!user) {
+        return (
+            <>
+                <Layout title="Admin">
+                    <h2 className="text-4xl mt-8">401 - Unauthorized</h2>
+                </Layout>
+            </>
+        )
+    }
+
     return (
         <>
             <Layout title="Admin">
@@ -138,4 +149,34 @@ export default function Admin() {
             </Layout>
         </>
     )
+}
+
+export function getServerSideProps(context: NextPageContext) {
+    let ok = false
+
+    const { req, res } = context
+    if (req && res) {
+        // Authentication for admin using Basic Authentication
+        // TODO: Use a better authentication model/system/whatever,
+        // for now it's ok as there's not much of sensitive data stored anyway,
+        // but should totally do something better
+        if (req.headers.authorization) {
+            const auth = req.headers.authorization
+            const [user, password] = atob(auth.split(' ')[1]).split(':')
+            if (user === process.env.ADMIN_USER && password === process.env.ADMIN_PASSWORD) {
+                ok = true
+            }
+        }
+
+        if (!ok) {
+            res.statusCode = 401
+            res.setHeader('WWW-Authenticate', 'Basic')
+        }
+    }
+
+    return {
+        props: {
+            user: ok
+        }
+    }
 }
