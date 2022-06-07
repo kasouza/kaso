@@ -1,12 +1,11 @@
-import Head from "next/head";
 import Layout from "../../components/Layout";
 import ProjectList from "../../components/ProjectList";
-import { PostData, sortedPosts, sortPostsByDate } from "../../lib/posts";
+import { PostData, sortedPosts, sortPostsByDateReversed } from "../../lib/posts";
 
 export const getStaticProps = () => {
     return {
         props: {
-            posts: sortedPosts('portfolio', sortPostsByDate).reverse()
+            posts: sortedPosts('portfolio', sortPostsByDateReversed)
         }
     }
 }

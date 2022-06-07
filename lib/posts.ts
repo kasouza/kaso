@@ -8,7 +8,6 @@ import remarkParse from 'remark-parse'
 import remarkMath from 'remark-math'
 import rehypeMathjax from 'rehype-mathjax'
 import remarkRehype from 'remark-rehype'
-import rehypeKatex from 'rehype-katex'
 import rehypeStringify from 'rehype-stringify'
 
 export interface PostData {
@@ -28,6 +27,16 @@ export const sortPostsByDate = (a: PostData, b: PostData) => {
 
     if (aTime < bTime) return -1
     if (aTime > bTime) return 1
+
+    return 0
+}
+
+export const sortPostsByDateReversed = (a: PostData, b: PostData) => {
+    const aTime = a.date.getTime()
+    const bTime = b.date.getTime()
+
+    if (aTime > bTime) return -1
+    if (aTime < bTime) return 1
 
     return 0
 }
@@ -82,13 +91,13 @@ export async function readPost(subDir: string, id: string): Promise<PostData> {
 
     const matterResult = matter(fileContent)
 
-    const contentHtml = await unified()
-        .use(remarkParse)
-        .use(remarkMath)
-        .use(remarkRehype)
-        .use(rehypeMathjax, {svg: {scale: 1.5}})
-        .use(rehypeStringify)
-        .process(matterResult.content)
+	const contentHtml = await unified()
+		.use(remarkParse)
+		.use(remarkMath)
+		.use(remarkRehype)
+		.use(rehypeMathjax, {svg: {scale: 1.5}})
+		.use(rehypeStringify)
+		.process(matterResult.content)
 
     const { title, description, date, techs, demoURL } = matterResult.data
 

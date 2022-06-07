@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType, NextPageContext } from "next"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
 
 import "../../node_modules/react-responsive-carousel/lib/styles/carousel.min.css"
 import Post from "../../components/Post"
