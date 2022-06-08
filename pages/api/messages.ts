@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 		res.status(200).send('')
 
 	} else {
-		const isAdmin = authenticate(req, res)
+		const isAdmin = authenticate(req)
 		if (isAdmin) {
 			if (req.method === 'GET') {
 				const messages = await getAllMessages()

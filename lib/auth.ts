@@ -1,7 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { IncomingMessage } from "http"
+import { NextApiRequest } from "next"
 
-export const authenticate = (req: NextApiRequest, res: NextApiResponse) => {
-	if (process.env.ADMIN_USER && process.env.ADMIN_PASSWORD && req && res) {
+export const authenticate = (req: NextApiRequest | IncomingMessage) => {
+	if (process.env.ADMIN_USER && process.env.ADMIN_PASSWORD && req) {
 		// Authentication for admin using Basic Authentication
 		// TODO: Use a better authentication model/system/whatever,
 		// for now it's ok as there's not much of sensitive data stored anyway,

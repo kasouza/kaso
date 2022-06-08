@@ -7,6 +7,7 @@ import { Message } from "../../lib/messages/common";
 import { Icon } from "@mdi/react"
 import { mdiArrowDown, mdiArrowUp, mdiCheckboxBlankOutline, mdiCheckboxMarkedOutline } from "@mdi/js";
 import { NextPageContext } from "next";
+import { authenticate } from "../../lib/auth";
 
 interface ListItemProps {
 	message: Message,
@@ -43,13 +44,13 @@ const ListItem: FC<ListItemProps> = ({ message, checked, setChecked }) => {
 	)
 }
 
-export default function Admin({ user }: { user: boolean }) {
+export default function Admin({ authenticated }: { authenticated: boolean }) {
 	const [messages, setMessages] = useState<Message[]>([])
 	const [checkedMessages, setCheckedMessages] = useState<boolean[]>([])
 	const [numChecked, setNumChecked] = useState(0)
 
 	useEffect(() => {
-		if (user) {
+		if (authenticated) {
 			fetch('/api/messages/').then(async (res) => {
 				if (res.ok) {
 					const json = await res.json()
@@ -59,7 +60,7 @@ export default function Admin({ user }: { user: boolean }) {
 				}
 			})
 		}
-	}, [user])
+	}, [authenticated])
 
 	const createSetter = useCallback((i: number) => (val: boolean) => {
 		const newCheckedMessages = [...checkedMessages]
@@ -110,7 +111,7 @@ export default function Admin({ user }: { user: boolean }) {
 		setNumChecked(checkedMessages.filter(m => m).length)
 	}, [checkedMessages])
 
-	if (!user) {
+	if (!authenticated) {
 		return (
 			<>
 				<Layout title="Admin">
@@ -154,34 +155,21 @@ export default function Admin({ user }: { user: boolean }) {
 }
 
 export function getServerSideProps(context: NextPageContext) {
-	let ok = false
+	const { req, res } = context;
+	let authenticated = false
+	if (req && res) {
+		authenticated = authenticate(req)
 
-	const { req, res } = context
-	if (process.env.ADMIN_USER && process.env.ADMIN_PASSWORD && req && res) {
-		// Authentication for admin using Basic Authentication
-		// TODO: Use a better authentication model/system/whatever,
-		// for now it's ok as there's not much of sensitive data stored anyway,
-		// but should totally do something better
-		if (req.headers.authorization) {
-			const auth = req.headers.authorization
-			const buff = Buffer.from(auth.split(' ')[1], 'base64')
-			const text = buff.toString('utf-8')
-			const [user, password] = text.split(':')
-
-			if (user === process.env.ADMIN_USER && password === process.env.ADMIN_PASSWORD) {
-				ok = true
-			}
-		}
-
-		if (!ok) {
+		if (!authenticated) {
 			res.statusCode = 401
 			res.setHeader('WWW-Authenticate', 'Basic')
 		}
 	}
 
+
 	return {
 		props: {
-			user: ok
+			authenticated
 		}
 	}
 }
