@@ -162,7 +162,9 @@ export function getServerSideProps(context: NextPageContext) {
 		// but should totally do something better
 		if (req.headers.authorization) {
 			const auth = req.headers.authorization
-			const [user, password] = atob(auth.split(' ')[1]).split(':')
+			const buff = Buffer.from(auth.split(' ')[1], 'base64')
+			const text = buff.toString('utf-8')
+			const [user, password] = text.split(':')
 
 			if (user === process.env.ADMIN_USER && password === process.env.ADMIN_PASSWORD) {
 				ok = true
