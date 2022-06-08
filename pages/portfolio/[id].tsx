@@ -22,6 +22,7 @@ export const getStaticPaths = () => {
 }
 
 const PortfolioPost: InferGetStaticPropsType<typeof getStaticProps> = ({ postData, images }: { postData: PostData, images: string[] }) => {
+	console.log(postData)
     return (
         <Post subDir="portfolio" postData={postData} images={images} />
     )
