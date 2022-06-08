@@ -16,7 +16,7 @@ export default function Hamburger({ children }: HamburgerProps) {
     }, [open])
 
     const navItems = React.Children.map(children, (child, i) => (
-        <div className="flex justify-center w-full" key={i}>{child}</div>
+		<div className="flex justify-center w-full md:border-none border-b py-6 last:border-b-0 border-black dark:border-white border-opacity-60 dark:border-opacity-60 border-b last:border-b-0" key={i}>{child}</div>
     ))
 
     const toggleOpen = () => setOpen(!open)
@@ -34,7 +34,7 @@ export default function Hamburger({ children }: HamburgerProps) {
             <div onClick={() => setOpen(false)} className={classNames('z-40 absolute top-0 left-0 bg-black bg-opacity-20 dark:bg-opacity-80 w-screen h-screen', { 'hidden': !open })}>
             </div>
 
-            <div className={classNames('z-50 rounded-md flex flex-col items-center gap-8 w-4/5 text-2xl bg-white dark:bg-black px-4 py-6 shadow-lg absolute top-full right-3', { 'hidden': !open })}>
+            <div className={classNames('border-default z-50 flex flex-col items-center w-4/5 text-2xl bg-white dark:bg-black px-4 py-6 shadow-lg absolute top-full right-3', { 'hidden': !open })}>
                 {navItems}
             </div>
         </nav>

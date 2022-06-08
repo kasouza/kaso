@@ -155,7 +155,7 @@ export function getServerSideProps(context: NextPageContext) {
     let ok = false
 
     const { req, res } = context
-    if (req && res) {
+    if (process.env.ADMIN_USER && process.env.ADMIN_PASSWORD && req && res) {
         // Authentication for admin using Basic Authentication
         // TODO: Use a better authentication model/system/whatever,
         // for now it's ok as there's not much of sensitive data stored anyway,
@@ -163,6 +163,7 @@ export function getServerSideProps(context: NextPageContext) {
         if (req.headers.authorization) {
             const auth = req.headers.authorization
             const [user, password] = atob(auth.split(' ')[1]).split(':')
+
             if (user === process.env.ADMIN_USER && password === process.env.ADMIN_PASSWORD) {
                 ok = true
             }
