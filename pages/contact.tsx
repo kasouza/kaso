@@ -7,7 +7,7 @@ import { notEmpty, isEmail, maxCharacters } from "../lib/input";
 import { MESSAGE_LENGTH, SENDER_EMAIL_LENGTH, SENDER_NAME_LENGTH, SUBJECT_LENGTH } from '../lib/messages/common'
 
 export default function Contact() {
-	const [modalOpen, setModalOpen] = useState(true)
+	const [modalOpen, setModalOpen] = useState(false)
 
 	const router = useRouter()
 
