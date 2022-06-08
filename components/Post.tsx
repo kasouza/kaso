@@ -16,7 +16,7 @@ interface PostProps {
 
 const Post: FC<PostProps> = ({ postData, images }) => {
 	let postContent = postData.content || ''
-	// postContent = postContent.replaceAll('<a', '<a target="_blank"') || ''
+	postContent = postContent.replace('<a', '<a target="_blank"') || ''
 
     return (
         <Layout title={postData.title}>
