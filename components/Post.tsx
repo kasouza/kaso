@@ -15,6 +15,9 @@ interface PostProps {
 }
 
 const Post: FC<PostProps> = ({ postData, images }) => {
+	let postContent = postData.content || ''
+	postContent = postContent.replaceAll('<a', '<a target="_blank"') || ''
+
     return (
         <Layout title={postData.title}>
             <section className="flex flex-col items-center gap-4 w-11/12 md:w-4/5 lg:w-3/5">
@@ -31,7 +34,7 @@ const Post: FC<PostProps> = ({ postData, images }) => {
 
                 {/* Little hack to make links open in new page and math is centered in the page */}
                 {/* FIXME: I totally need to change this */}
-                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postData.content?.replaceAll('<a', '<a target="_blank"') || '' }}></div>
+                <div className={styles.container} dangerouslySetInnerHTML={{ __html: postContent}}></div>
 
                 <div className="grid grid-cols-1 justify-items-center md:justify-items-start items-center w-full md:w-4/5  my-16">
                     <h2 className="md:col-span-2 mb-4 text-4xl">Techs</h2>
