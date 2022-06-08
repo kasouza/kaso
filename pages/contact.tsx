@@ -60,7 +60,7 @@ export default function Contact() {
 
 			<div className={classNames('flex items-center justify-center absolute bg-opacity-80 bg-black inset-0', { 'hidden': !modalOpen })}>
 				<div className="flex flex-col items-center justify-center gap-8 text-center bg-white dark:bg-black border-default p-8 m-1">
-					<p className="text-xl">You message has been sent!</p>
+					<p className="text-xl">Your message has been sent!</p>
 					<button className="block whitespace-nowrap px-4 py-2 text-xl border-default hover-default transition-colors" onClick={handleModalClick}>Ok!</button>
 				</div>
 			</div>

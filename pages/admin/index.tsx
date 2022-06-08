@@ -49,15 +49,17 @@ export default function Admin({ user }: { user: boolean }) {
 	const [numChecked, setNumChecked] = useState(0)
 
 	useEffect(() => {
-		fetch('/api/messages/').then(async (res) => {
-			if (res.ok) {
-				const json = await res.json()
-				setMessages(json.map((message: any) => (
-					new Message(message.senderName, message.senderEmail, message.subject, message.message, new Date(message.date), message.rowid
-					))))
-			}
-		})
-	}, [])
+		if (user) {
+			fetch('/api/messages/').then(async (res) => {
+				if (res.ok) {
+					const json = await res.json()
+					setMessages(json.map((message: any) => (
+						new Message(message.senderName, message.senderEmail, message.subject, message.message, new Date(message.date), message.rowid
+						))))
+				}
+			})
+		}
+	}, [user])
 
 	const createSetter = useCallback((i: number) => (val: boolean) => {
 		const newCheckedMessages = [...checkedMessages]
