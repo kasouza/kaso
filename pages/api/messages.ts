@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next"
-import { getAllMessages, createMessage, deleteMessages } from "../../lib/messages/messages"
+// import { getAllMessages, createMessage, deleteMessages } from "../../lib/messages/messages"
 import { Message } from "../../lib/messages/common"
 import { authenticate } from "../../lib/auth"
 
@@ -14,21 +14,22 @@ const handler: NextApiHandler = async (req, res) => {
 	console.error('ã')
 	if (req.method === 'POST') {
 		const reqBody = req.body as ReqBody
-		createMessage(new Message(
-			reqBody.name, reqBody.email, reqBody.subject, reqBody.message
-		))
+		// createMessage(new Message(
+			// reqBody.name, reqBody.email, reqBody.subject, reqBody.message
+		// ))
 		res.status(200).send('')
 
 	} else {
 		const isAdmin = authenticate(req)
 		if (isAdmin) {
 			if (req.method === 'GET') {
-				const messages = await getAllMessages()
-				res.status(200).json(messages)
+				// const messages = await getAllMessages()
+				// res.status(200).json(messages)
+				res.status(200).json({})
 
 			} else if (req.method === 'DELETE') {
 				const rowids = JSON.parse(req.body) as number[]
-				deleteMessages(rowids)
+				// deleteMessages(rowids)
 				res.status(200).send('')
 
 			} else {

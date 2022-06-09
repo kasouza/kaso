@@ -1,7 +1,8 @@
 import mysql from "mysql2";
 import { Message } from './common'
 
-const conn = mysql.createConnection(process.env.PLANETSCALE_PRISMA_DATABASE || '')
+// const conn = mysql.createConnection(process.env.PLANETSCALE_PRISMA_DATABASE || '')
+const conn = mysql.createConnection(process.env.DATABASE_URL2 || '')
 
 export function createMessage(message: Message) {
 	conn.execute('INSERT INTO messages (senderName, senderEmail, subject, message, date) VALUES(?, ?, ?, ?, ?)', [message.senderName, message.senderEmail, message.subject, message.message, message.date], (err) => {
