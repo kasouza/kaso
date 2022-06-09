@@ -11,6 +11,7 @@ export interface ReqBody {
 }
 
 const handler: NextApiHandler = async (req, res) => {
+	console.error('ã')
 	if (req.method === 'POST') {
 		const reqBody = req.body as ReqBody
 		createMessage(new Message(
