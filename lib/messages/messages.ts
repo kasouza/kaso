@@ -2,7 +2,16 @@ import mysql from "mysql2";
 import { Message } from './common'
 
 // const conn = mysql.createConnection(process.env.PLANETSCALE_PRISMA_DATABASE || '')
-const conn = mysql.createConnection(process.env.DATABASE_URL2 || '')
+// const conn = mysql.createConnection(process.env.DATABASE_URL2 || '')
+const conn = mysql.createPool({
+	host: process.env.PLANETSCALE_DB_HOST,
+	user: process.env.PLANETSCALE_DB_USER,
+	database: process.env.PLANETSCALE_DB,
+	password: process.env.PLANETSCALE_DB_PASSWORD,
+	waitForConnections: true,
+	connectionLimit: 10,
+	queueLimit: 0,
+})
 
 export function createMessage(message: Message) {
 	conn.execute('INSERT INTO messages (senderName, senderEmail, subject, message, date) VALUES(?, ?, ?, ?, ?)', [message.senderName, message.senderEmail, message.subject, message.message, message.date], (err) => {
