@@ -4,7 +4,9 @@ import { Message } from './common'
 const conn = mysql.createConnection(process.env.PLANETSCALE_PRISMA_DATABASE || '')
 
 export function createMessage(message: Message) {
-	conn.execute('INSERT INTO messages (senderName, senderEmail, subject, message, date) VALUES(?, ?, ?, ?, ?)', [message.senderName, message.senderEmail, message.subject, message.message, message.date])
+	conn.execute('INSERT INTO messages (senderName, senderEmail, subject, message, date) VALUES(?, ?, ?, ?, ?)', [message.senderName, message.senderEmail, message.subject, message.message, message.date], (err) => {
+		console.error(err)
+	})
 }
 
 export function getAllMessages(): Promise<Message[]> {
@@ -23,8 +25,6 @@ export function getAllMessages(): Promise<Message[]> {
 						new Date(row.date),
 						row.id
 					)))
-				} else {
-					console.error("NOT ARRAY")
 				}
 			}
 		})
@@ -33,6 +33,10 @@ export function getAllMessages(): Promise<Message[]> {
 
 export function deleteMessages(rowids: number[]) {
 	rowids.forEach(rowid => {
-		conn.execute('DELETE FROM messages WHERE id = (?)', [rowid])
+		conn.execute('DELETE FROM messages WHERE id = (?)', [rowid], (err) => {
+			if (err) {
+				console.error(err)
+			}
+		})
 	})
 }
