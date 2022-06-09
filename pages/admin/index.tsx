@@ -51,7 +51,7 @@ export default function Admin({ authenticated }: { authenticated: boolean }) {
 
 	useEffect(() => {
 		if (authenticated) {
-			fetch('/api/messages/').then(async (res) => {
+			fetch('/api/messages/', { mode: 'cors' }).then(async (res) => {
 				if (res.ok) {
 					const json = await res.json()
 					setMessages(json.map((message: any) => (
@@ -95,7 +95,7 @@ export default function Admin({ authenticated }: { authenticated: boolean }) {
 			}
 		}
 
-		fetch('/api/messages', { method: 'DELETE', body: JSON.stringify(rowids) }).then(res => {
+		fetch('/api/messages', { method: 'DELETE', body: JSON.stringify(rowids),  mode: 'cors' }).then(res => {
 			if (!res.ok) {
 				// show some error message
 				return;

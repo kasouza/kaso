@@ -27,7 +27,8 @@ export default function Contact() {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: json
+			body: json,
+			mode: 'cors'
 		}).catch(() => {
 			alert("An error happened while sending your message, please try again later")
 		}).then(() => {
