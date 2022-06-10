@@ -8,7 +8,8 @@ export function createMessage(message: Message) {
 }
 
 export async function getAllMessages(): Promise<Message[]> {
-	const [rows, _] = await conn.query('SELECT * FROM messages', {})
+	const [rows, info] = await conn.query('SELECT * FROM messages', {})
+	console.log('cuceta', rows, info)
 	return rows.map((row: any) => new Message(
 		row.senderName,
 		row.senderEmail,

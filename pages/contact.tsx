@@ -33,7 +33,7 @@ export default function Contact() {
 			alert("An error happened while sending your message, please try again later")
 		}).then(() => {
 			window.scrollTo(0, 0);
-			// setModalOpen(true)
+			setModalOpen(true)
 		})
 	}, [])
 
