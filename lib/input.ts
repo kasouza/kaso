@@ -4,11 +4,11 @@ export type InputType = 'text' | 'submit' | 'textarea' | 'email' | 'password';
 export type validator = (val: string) => { ok: boolean, err: string }
 
 export interface Input {
-    name: string,
-    displayName: string,
-    placeholder: string,
-    type: InputType,
-    validations?: validator[]
+	name: string,
+	displayName: string,
+	placeholder: string,
+	type: InputType,
+	validations?: validator[]
 }
 
 // These internal functions are use to keep one unique syntax for all the validation functions

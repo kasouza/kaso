@@ -39,7 +39,7 @@ const FormItem: FC<FormItemProps> = ({ value, setValue, error, setError, name, d
         <>
             {type === 'submit'
                 ? <button type="submit">{displayName}</button>
-                : <label className={classNames('flex font-thin flex-col gap-2', { 'text-red-error': hasError })} htmlFor={name}>
+                : <label className={classNames('flex  flex-col gap-2', { 'text-red-error': hasError })} htmlFor={name}>
                     <span>{displayName}</span>
 
                     {type === 'textarea' && <textarea {...props}></textarea>}
