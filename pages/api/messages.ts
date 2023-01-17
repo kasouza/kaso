@@ -87,4 +87,5 @@ const handler: NextApiHandler = async (req, res) => {
 		res.status(500).end()
 	}
 }
+
 export default handler

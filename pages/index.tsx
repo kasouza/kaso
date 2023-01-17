@@ -40,7 +40,7 @@ const Home = ({ posts }: { posts: PostData[] }) => {
 								: posts.map((post) => (
 									<Link key={post.id} href={`/blog/${post.id}`}>
 										<a className="flex gap-8 hover:text-gray-700 dark:hover:text-gray-300">
-											<span className="whitespace-nowrap">{post.date.toLocaleDateString()}</span>
+											<span className="whitespace-nowrap">{post.date.toLocaleDateString('en-GB')}</span>
 											<span className="whitespace-nowrap text-ellipsis overflow-hidden">{post.description}</span>
 										</a>
 									</Link>

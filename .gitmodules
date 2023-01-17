@@ -1,0 +1,3 @@
+[submodule "public/demo/portfolio/click-the-cookie"]
+	path = public/demo/portfolio/click-the-cookie
+	url = https://github.com/kasouza/click-the-cookie
