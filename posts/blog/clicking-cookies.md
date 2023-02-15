@@ -15,6 +15,6 @@ As I said, this project is quite simple, so for the technologies nothing fancy w
 
 Well, even though there are a lot more little details about this project, I think this is enough for a first post, there's more to talk about but if this gets much longer no one will ever read.
 
-Checkout the [game](/demo/portfolio/click-the-cookie/index.html) and the [code for it](https://github.com/kasouza/click-the-cookies) and if you feel like, [hit me up for anything](https://kaso.vercel.app/contact).
+Checkout the [game](/demo/portfolio/click-the-cookie/index.html) and the [code for it](https://github.com/kasouza/click-the-cookie) and if you feel like, [hit me up for anything](https://kaso.vercel.app/contact).
 
 P.S: To be honest, this was less of a pain to write than I thought it would be, was quite nice actually.
