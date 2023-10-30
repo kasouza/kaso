@@ -1,18 +1,31 @@
 // Import the functions you need from the SDKs you need
 
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig)
-export const firestore = getFirestore(app)
+export function app() {
+    if (getApps().length === 0) {
+        const app = initializeApp(firebaseConfig);
+        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+
+        initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider(process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY || ''),
+            isTokenAutoRefreshEnabled: true
+        })
+
+        return app;
+    } 
+
+    return getApp();
+}

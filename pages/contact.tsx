@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import Form from "../components/Form/Form";
+import Form, { BeforeSubmitValidator } from "../components/Form/Form";
 import Layout from "../components/Layout";
 
-import { messageValidators } from '../lib/messages/common'
+import { createMessage, messageValidators } from '../lib/messages/common'
 
 export default function Contact() {
     const [modalOpen, setModalOpen] = useState(false)
@@ -20,36 +20,55 @@ export default function Contact() {
     }, [])
 
     const handleSubmit = useCallback(async (data: Map<string, string>) => {
-        const json = JSON.stringify(Object.fromEntries(data))
-        fetch('/api/messages', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: json,
-            mode: 'cors'
-        }).catch(() => {
-            alert("An error happened while sending your message, please try again later")
-        }).then(() => {
-            window.scrollTo(0, 0);
-            setModalOpen(true)
-        })
+        const ok = await createMessage(
+            data.get('name') || '',
+            data.get('subject') || '',
+            data.get('message') || '',
+            data.get('email'),
+            data.get('phoneNumber')
+        );
+
+        if (!ok) {
+            alert('erro')
+            return
+        }
+
+        setModalOpen(true);
     }, [])
+
+    const beforeSubmitValidator: BeforeSubmitValidator = (inputs, values, setError) => {
+        const emailIdx = inputs.findIndex(input => input.name == 'email');
+        const phoneNumberIdx = inputs.findIndex(input => input.name == 'phoneNumber');
+
+        const emailValue = values[emailIdx];
+        const phoneNumberValue = values[phoneNumberIdx];
+
+        // At least one of these must be set
+        if (emailValue.trim() === '' && phoneNumberValue.trim() === '') {
+            setError(emailIdx, 'either email or phone number must be present');
+            setError(phoneNumberIdx, 'either email or phone number must be present');
+
+            return false;
+        }
+
+        return true;
+    }
 
     return (
         <Layout title="Contact">
             <div className="w-11/12 md:w-4/5 lg:w-3/5">
-                <Form onSubmit={handleSubmit} inputs={[
-                    { name: 'name', displayName: 'Name', placeholder: 'Rick Astley', type: 'text', validations: messageValidators.name },
+                <Form onSubmit={handleSubmit} beforeSubmitValidator={beforeSubmitValidator} inputs={[
+                    { name: 'name', displayName: 'Name', placeholder: 'Rick Astley', type: 'text', validations: messageValidators.name, required: true },
                     { name: 'email', displayName: 'Email', placeholder: 'rick@email.com', type: 'email', validations: messageValidators.email },
-                    { name: 'subject', displayName: 'Subject', placeholder: 'I will never give you up', type: 'text', validations: messageValidators.subject },
+                    { name: 'phoneNumber', displayName: 'Phone number', placeholder: '+55 (99) 99999-9999', type: 'email', validations: messageValidators.phoneNumber },
+                    { name: 'subject', displayName: 'Subject', placeholder: 'I will never give you up', type: 'text', validations: messageValidators.subject, required: true },
                     {
                         name: 'message',
                         displayName: 'Message',
                         placeholder: 'Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you',
                         type: 'textarea',
-                        validations: messageValidators.message
+                        validations: messageValidators.message,
+                        required: true,
                     },
                 ]} />
             </div>

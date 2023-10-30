@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ChangeEventHandler, FC } from "react";
-import { InputType } from "../../lib/input";
+import { InputType, validate, validator } from "../../lib/input";
 
 export interface FormItemProps {
     value: string
@@ -8,30 +8,46 @@ export interface FormItemProps {
 
     error: string,
     setError: (err: string) => void,
+    clearError: () => void,
 
     name: string,
     displayName: string,
     placeholder: string,
     type: InputType,
+
+    validations?: validator[],
 }
 
-const FormItem: FC<FormItemProps> = ({ value, setValue, error, setError, name, displayName, placeholder, type }) => {
+const FormItem: FC<FormItemProps> = ({ value, setValue, error, setError, clearError, name, displayName, placeholder, type, validations }) => {
     const hasError = error !== ''
 
-    const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
+    const handleChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
         setValue(e.target.value)
 
         if (hasError) {
-            setError('')
+            clearError();
+        }
+    }
+
+    const handleBlur = () => {
+        const validated = validate(value, validations);
+        if (!validated.ok && validated.err) {
+            setError(validated.err);
         }
     }
 
     const props = {
         value: value,
+        onBlur: handleBlur,
         onChange: handleChange,
         name: name,
         id: name,
-        className: classNames('placeholder:dark:text-white placeholder:dark:text-opacity-20 placeholder:text-black placeholder:text-opacity-40 focus:outline-none bg-inherit px-3 py-1', { 'h-44': type === 'textarea' }, { 'border-default focus:border-black focus:dark:border-gray-300': !hasError }, { 'border border-red-error text-red-error': hasError }),
+        className: classNames(
+            'dark:placeholder-text-white not:dark:placeholder-black focus:outline-none bg-inherit px-3 py-1',
+            { 'h-44': type === 'textarea' },
+            { 'border-default focus:border-black focus:dark:border-gray-300': !hasError },
+            { 'border border-red-error text-red-error placeholder-red-error': hasError }
+        ),
         placeholder: placeholder,
     }
 
@@ -46,7 +62,7 @@ const FormItem: FC<FormItemProps> = ({ value, setValue, error, setError, name, d
                     {(type === 'text' || type === 'email') && <input {...props} type="text" />}
                     {type === 'password' && <input {...props} type="password" />}
 
-                    {hasError && <span className="top-full text-sm">{error}</span>}
+                    {hasError && <span className="px-1 top-full text-sm">{error}</span>}
                 </label>
             }
         </>
