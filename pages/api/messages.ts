@@ -3,7 +3,7 @@ import { validator } from '../../lib/input'
 import { messageValidators, MessageInfo } from '../../lib/messages/common'
 
 // There is no .d.ts file and I'm too lazy to write one
-const nodemailer = require('nodemailer')
+import nodemailer from 'nodemailer'
 
 const senderUser = process.env.SENDER_EMAIL_USER
 const senderPass = process.env.SENDER_EMAIL_PASS
